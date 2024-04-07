@@ -9,13 +9,15 @@ class MockBytedanceAnalyticsPlatform with MockPlatformInterfaceMixin implements 
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<void> init(
-      {required String appId,
-      bool enableImei = false,
-      bool enableAutoTrack = false,
-      bool enableLog = false,
-      bool encryptAndCompress = true,
-      bool enablePlay = true}) async {}
+  Future<void> init({
+    required String appId,
+    bool enableImei = false,
+    bool enableAutoTrack = false,
+    bool enableLog = false,
+    bool encryptAndCompress = true,
+    bool enablePlay = true,
+    bool autoStart = false,
+  }) async {}
 
   @override
   Future<void> start() async {}

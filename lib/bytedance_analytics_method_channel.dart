@@ -23,6 +23,7 @@ class MethodChannelBytedanceAnalytics extends BytedanceAnalyticsPlatform {
     bool enableLog = false,
     bool encryptAndCompress = true,
     bool enablePlay = true,
+    bool autoStart = false,
   }) async {
     return await methodChannel.invokeMethod<void>('init', {
       'appId': appId,
@@ -31,6 +32,7 @@ class MethodChannelBytedanceAnalytics extends BytedanceAnalyticsPlatform {
       'enableLog': enableLog,
       'encryptAndCompress': encryptAndCompress,
       'enablePlay': enablePlay,
+      'autoStart': autoStart,
     });
   }
 

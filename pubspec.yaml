@@ -3,7 +3,7 @@ description: "字节归因实现方案"
 version: 1.0.0
 homepage: https://github.com/LebranD/bytedance_analytics
 repository: https://github.com/LebranD/bytedance_analytics
-publish_to: "pub.dev"
+publish_to: https://pub.dev
 
 environment:
   sdk: ">=3.3.1 <4.0.0"

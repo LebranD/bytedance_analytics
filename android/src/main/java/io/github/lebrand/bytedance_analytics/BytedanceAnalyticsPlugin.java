@@ -62,6 +62,7 @@ public class BytedanceAnalyticsPlugin implements FlutterPlugin, MethodCallHandle
     final boolean enableLog = (boolean) arguments.get("enableLog");
     final boolean encryptAndCompress = (boolean) arguments.get("encryptAndCompress");
     final boolean enablePlay = (boolean) arguments.get("enablePlay");
+    final boolean enableAutoStart = (boolean) arguments.get("enableAutoStart");
 
     /* 初始化SDK开始 */
     // 第一个参数APPID: 参考2.1节获取
@@ -74,7 +75,7 @@ public class BytedanceAnalyticsPlugin implements FlutterPlugin, MethodCallHandle
     config.setLogEnable(enableLog); // true:开启日志，参考4.3节设置logger，false:关闭日志
     AppLog.setEncryptAndCompress(encryptAndCompress); // 加密开关，true开启，false关闭
     config.setEnablePlay(enablePlay); // 配置心跳事件（时长统计）
-    config.setAutoStart(false);
+    config.setAutoStart(enableAutoStart);
     //传入需要init的AppLog实例，若没有多个AppLog实例，则传入AppLog.getInstance()即可
     BDConvert.getInstance().init(this.applicationContext, AppLog.getInstance());
     AppLog.init(this.applicationContext, config, this.mainActivity);
