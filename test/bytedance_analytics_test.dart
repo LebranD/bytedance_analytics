@@ -16,7 +16,7 @@ class MockBytedanceAnalyticsPlatform with MockPlatformInterfaceMixin implements 
     bool enableLog = false,
     bool encryptAndCompress = true,
     bool enablePlay = true,
-    bool autoStart = false,
+    bool enableAutoStart = false,
   }) async {}
 
   @override
