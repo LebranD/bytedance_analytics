@@ -1,6 +1,9 @@
+import 'dart:io';
+
+import 'package:bytedance_analytics/darwin_bytedance_analytics_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'bytedance_analytics_method_channel.dart';
+import 'android_bytedance_analytics_method_channel.dart';
 
 abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
   /// Constructs a BytedanceAnalyticsPlatform.
@@ -8,7 +11,8 @@ abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static BytedanceAnalyticsPlatform _instance = MethodChannelBytedanceAnalytics();
+  static BytedanceAnalyticsPlatform _instance =
+      Platform.isAndroid ? AndroidMethodChannelBytedanceAnalytics() : DarwinMethodChannelBytedanceAnalytics();
 
   /// The default instance of [BytedanceAnalyticsPlatform] to use.
   ///
@@ -27,11 +31,6 @@ abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  // final boolean enableImei = (boolean) arguments.get("enableImei");
-  // final boolean enableAutoTrack = (boolean) arguments.get("enableAutoTrack");
-  // final boolean enableLog = (boolean) arguments.get("enableLog");
-  // final boolean encryptAndCompress = (boolean) arguments.get("encryptAndCompress");
-  // final boolean enablePlay = (boolean) arguments.get("enablePlay");
   Future<void> init({
     required String appId,
     bool enableImei = false,
@@ -44,7 +43,19 @@ abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
+  Future<void> initIOS() async {
+    throw UnimplementedError('initIOS() has not been implemented.');
+  }
+
   Future<void> start() async {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+    throw UnimplementedError('start() has not been implemented.');
+  }
+
+  Future<String?> getClickId() async {
+    throw UnimplementedError('getClickId() has not been implemented.');
+  }
+
+  Future<String?> getIdfv() async {
+    throw UnimplementedError('getIdfv() has not been implemented.');
   }
 }

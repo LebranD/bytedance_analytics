@@ -95,6 +95,7 @@ public class BytedanceAnalyticsPlugin implements FlutterPlugin, MethodCallHandle
       init(call, result);
     } else if (call.method.equals("start")) {
       start();
+      result.success(null);
     } else {
       result.notImplemented();
     }

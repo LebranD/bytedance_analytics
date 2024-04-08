@@ -1,14 +1,24 @@
 PODS:
+  - BDASignalSDK (1.0.1):
+    - Protobuf
   - bytedance_analytics (0.0.1):
+    - BDASignalSDK
     - Flutter
+    - Protobuf
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
+  - Protobuf (3.25.1)
 
 DEPENDENCIES:
   - bytedance_analytics (from `.symlinks/plugins/bytedance_analytics/ios`)
   - Flutter (from `Flutter`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
+
+SPEC REPOS:
+  trunk:
+    - BDASignalSDK
+    - Protobuf
 
 EXTERNAL SOURCES:
   bytedance_analytics:
@@ -19,9 +29,11 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
-  bytedance_analytics: b693ad2ff7b2403697a160c98c92276415de933f
+  BDASignalSDK: 4a6651ae7ec2a2fe4ff0e048ee1c9f7c2bcb726a
+  bytedance_analytics: 2f76b914adda6b24ed0964df73f75f8c72eb3010
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   integration_test: 13825b8a9334a850581300559b8839134b124670
+  Protobuf: d94761c33f1239c0a43a0817ca1a5f7f7c900241
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
