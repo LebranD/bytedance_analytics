@@ -40,6 +40,7 @@ abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
     bool enablePlay = true,
     bool enableAutoStart = false,
   }) async {
+    //
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
