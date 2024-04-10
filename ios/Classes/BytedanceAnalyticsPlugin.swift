@@ -36,11 +36,11 @@ public class BytedanceAnalyticsPlugin: NSObject, FlutterPlugin {
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable : Any] = [:]) -> Bool {
         BDASignalManager.enableDelayUpload();
         BDASignalManager.didFinishLaunching(options: launchOptions, connect: nil);
-        return true
+        return false
     }
     
     public func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         BDASignalManager.anylyseDeeplinkClickid(withOpenUrl: url.absoluteString);
-        return true
+        return false
     }
 }
