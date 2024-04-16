@@ -59,4 +59,8 @@ abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
   Future<String?> getIdfv() async {
     throw UnimplementedError('getIdfv() has not been implemented.');
   }
+
+  Future<String?> getAndroidId() async {
+    throw UnimplementedError('getIdfv() has not been implemented.');
+  }
 }

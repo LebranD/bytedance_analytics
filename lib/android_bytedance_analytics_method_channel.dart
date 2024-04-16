@@ -45,4 +45,9 @@ class AndroidMethodChannelBytedanceAnalytics extends BytedanceAnalyticsPlatform 
   Future<String?> getClickId() async {
     return await methodChannel.invokeMethod<String>('getClickId');
   }
+
+  @override
+  Future<String?> getAndroidId() async {
+    return await methodChannel.invokeMethod<String>('getAndroidId');
+  }
 }

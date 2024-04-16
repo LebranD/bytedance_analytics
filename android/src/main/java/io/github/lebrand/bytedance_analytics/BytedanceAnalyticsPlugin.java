@@ -2,6 +2,7 @@ package io.github.lebrand.bytedance_analytics;
 
 import android.app.Activity;
 import android.content.Context;
+import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 
@@ -96,6 +97,9 @@ public class BytedanceAnalyticsPlugin implements FlutterPlugin, MethodCallHandle
     } else if (call.method.equals("start")) {
       start();
       result.success(null);
+    } else if (call.method.equals("getAndroidId")) {
+      final String androidId = Settings.Secure.getString(applicationContext.getContentResolver(), Settings.Secure.ANDROID_ID);
+      result.success(androidId);
     } else {
       result.notImplemented();
     }

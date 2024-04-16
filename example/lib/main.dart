@@ -1,4 +1,5 @@
 import 'package:bytedance_analytics/bytedance_analytics_platform_interface.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -45,6 +46,19 @@ class _MyAppState extends State<MyApp> {
               },
               child: const Text(
                 '开始上报',
+                style: TextStyle(color: Colors.red, fontSize: 15),
+              ),
+            ),
+            const SizedBox(height: 30),
+            TextButton(
+              onPressed: () async {
+                final androidId = await BytedanceAnalyticsPlatform.instance.getAndroidId();
+                if (kDebugMode) {
+                  print('androidId ==== $androidId');
+                }
+              },
+              child: const Text(
+                '获取AndroidId',
                 style: TextStyle(color: Colors.red, fontSize: 15),
               ),
             ),
