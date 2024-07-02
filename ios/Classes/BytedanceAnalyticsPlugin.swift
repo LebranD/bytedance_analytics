@@ -11,7 +11,8 @@ public class BytedanceAnalyticsPlugin: NSObject, FlutterPlugin {
     }
     
     private func initBDA(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        BDASignalManager.register(withOptionalData: [kBDADSignalSDKUserUniqueId: "toutiao"])
+        guard let args = call.arguments as? [String:Any] else { return }
+        BDASignalManager.register(withOptionalData: [kBDADSignalSDKUserUniqueId: args["channel"] ?? "unknown"])
         result(nil)
     }
     

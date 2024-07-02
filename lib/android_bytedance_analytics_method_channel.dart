@@ -18,6 +18,7 @@ class AndroidMethodChannelBytedanceAnalytics extends BytedanceAnalyticsPlatform 
   @override
   Future<void> init({
     required String appId,
+    required String channel,
     bool enableImei = false,
     bool enableAutoTrack = false,
     bool enableLog = false,
@@ -27,6 +28,7 @@ class AndroidMethodChannelBytedanceAnalytics extends BytedanceAnalyticsPlatform 
   }) async {
     return await methodChannel.invokeMethod<void>('init', {
       'appId': appId,
+      'channel': channel,
       'enableImei': enableImei,
       'enableAutoTrack': enableAutoTrack,
       'enableLog': enableLog,

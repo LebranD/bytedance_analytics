@@ -33,6 +33,7 @@ abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
 
   Future<void> init({
     required String appId,
+    required String channel,
     bool enableImei = false,
     bool enableAutoTrack = false,
     bool enableLog = false,

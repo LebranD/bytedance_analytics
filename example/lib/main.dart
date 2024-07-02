@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
           children: [
             TextButton(
               onPressed: () {
-                BytedanceAnalyticsPlatform.instance.init(appId: '584352', enableLog: true);
+                BytedanceAnalyticsPlatform.instance.init(appId: '584352', channel: 'toutiao', enableLog: true);
               },
               child: const Text(
                 '初始化',

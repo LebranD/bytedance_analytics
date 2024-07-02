@@ -58,6 +58,7 @@ public class BytedanceAnalyticsPlugin implements FlutterPlugin, MethodCallHandle
   private void init(@NonNull MethodCall call, @NonNull Result result) {
     Map<String, Object> arguments = call.arguments();
     final String appId = (String) arguments.get("appId");
+    final String channel = (String) arguments.get("channel");
     final boolean enableImei = (boolean) arguments.get("enableImei");
     final boolean enableAutoTrack = (boolean) arguments.get("enableAutoTrack");
     final boolean enableLog = (boolean) arguments.get("enableLog");
@@ -68,7 +69,7 @@ public class BytedanceAnalyticsPlugin implements FlutterPlugin, MethodCallHandle
     /* 初始化SDK开始 */
     // 第一个参数APPID: 参考2.1节获取
     // 第二个参数CHANNEL: 填写渠道信息，请注意不能为空
-    final InitConfig config = new InitConfig(appId, "toutiao");
+    final InitConfig config = new InitConfig(appId, channel);
     // 设置数据上送地址
     config.setUriConfig(UriConstants.DEFAULT);
     config.setImeiEnable(enableImei);//建议关停获取IMEI（出于合规考虑）

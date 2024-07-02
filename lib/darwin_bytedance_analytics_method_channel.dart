@@ -30,6 +30,7 @@ class DarwinMethodChannelBytedanceAnalytics extends BytedanceAnalyticsPlatform {
     return await methodChannel.invokeMethod<String>('getClickId');
   }
 
+  @override
   Future<String?> getIdfv() async {
     return await methodChannel.invokeMethod<String>('getIdfv');
   }
