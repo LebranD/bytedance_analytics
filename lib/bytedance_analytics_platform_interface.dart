@@ -45,7 +45,10 @@ abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<void> initIOS() async {
+  Future<void> initIOS({
+    required String appId,
+    required String channel,
+  }) async {
     throw UnimplementedError('initIOS() has not been implemented.');
   }
 

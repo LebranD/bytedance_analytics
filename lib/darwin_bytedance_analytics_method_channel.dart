@@ -16,8 +16,14 @@ class DarwinMethodChannelBytedanceAnalytics extends BytedanceAnalyticsPlatform {
   }
 
   @override
-  Future<void> initIOS() async {
-    return await methodChannel.invokeMethod<void>('init');
+  Future<void> initIOS({
+    required String appId,
+    required String channel,
+  }) async {
+    return await methodChannel.invokeMethod<void>('init', {
+      'appId': appId,
+      'channel': channel,
+    });
   }
 
   @override
