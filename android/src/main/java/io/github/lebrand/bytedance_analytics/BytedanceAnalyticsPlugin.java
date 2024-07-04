@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import com.bytedance.ads.convert.BDConvert;
 import com.bytedance.applog.AppLog;
 import com.bytedance.applog.InitConfig;
-import com.bytedance.applog.devtools.AppLogDevTools;
 import com.bytedance.applog.util.UriConstants;
 
 import java.util.Map;
