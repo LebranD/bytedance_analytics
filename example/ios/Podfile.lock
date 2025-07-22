@@ -1,17 +1,19 @@
 PODS:
-  - BDASignalSDK (1.0.1):
-    - Protobuf
+  - BDASignalSDK (1.0.6)
   - bytedance_analytics (0.0.1):
-    - BDASignalSDK
+    - BDASignalSDK (= 1.0.6)
     - Flutter
     - Protobuf
+  - device_info_plus (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
-  - Protobuf (3.25.1)
+  - Protobuf (3.29.5)
 
 DEPENDENCIES:
   - bytedance_analytics (from `.symlinks/plugins/bytedance_analytics/ios`)
+  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
 
@@ -23,18 +25,21 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   bytedance_analytics:
     :path: ".symlinks/plugins/bytedance_analytics/ios"
+  device_info_plus:
+    :path: ".symlinks/plugins/device_info_plus/ios"
   Flutter:
     :path: Flutter
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
-  BDASignalSDK: 4a6651ae7ec2a2fe4ff0e048ee1c9f7c2bcb726a
-  bytedance_analytics: 2f76b914adda6b24ed0964df73f75f8c72eb3010
+  BDASignalSDK: 8bb707e922e9fef1718e66ba3c36d9975d665e09
+  bytedance_analytics: 65fedf96e14cfd4f4170de13d54579882fcd2eb4
+  device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  integration_test: 13825b8a9334a850581300559b8839134b124670
-  Protobuf: d94761c33f1239c0a43a0817ca1a5f7f7c900241
+  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
+  Protobuf: 164aea2ae380c3951abdc3e195220c01d17400e0
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.16.2

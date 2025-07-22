@@ -28,7 +28,9 @@ public class BytedanceAnalyticsPlugin: NSObject, FlutterPlugin {
         case "getClickId":
             result(BDASignalManager.getClickId())
         case "getIdfv":
-            result(BDASignalUtility.idfv())
+            let device = UIDevice.current
+            let idfv = device.identifierForVendor?.uuidString
+            result(idfv)
         default:
             result(FlutterMethodNotImplemented)
         }

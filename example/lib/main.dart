@@ -1,4 +1,5 @@
 import 'package:bytedance_analytics/bytedance_analytics_platform_interface.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -59,6 +60,23 @@ class _MyAppState extends State<MyApp> {
               },
               child: const Text(
                 '获取AndroidId',
+                style: TextStyle(color: Colors.red, fontSize: 15),
+              ),
+            ),
+            const SizedBox(height: 30),
+            TextButton(
+              onPressed: () async {
+                final iosDeviceInfo = await DeviceInfoPlugin().iosInfo;
+
+                final idfv = await BytedanceAnalyticsPlatform.instance.getIdfv();
+
+                if (kDebugMode) {
+                  print('iosDeviceInfo.idfv ==== ${iosDeviceInfo.identifierForVendor}');
+                  print('idfv ==== $idfv');
+                }
+              },
+              child: const Text(
+                '获取Idfv',
                 style: TextStyle(color: Colors.red, fontSize: 15),
               ),
             ),

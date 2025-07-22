@@ -15,7 +15,7 @@ A new Flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'BDASignalSDK'
+  s.dependency 'BDASignalSDK', '1.0.6'
   s.dependency 'Protobuf'
   s.platform = :ios, '11.0'
 
