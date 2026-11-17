@@ -31,24 +31,13 @@ abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<void> init({
-    required String appId,
-    required String channel,
-    bool enableImei = false,
-    bool enableAutoTrack = false,
-    bool enableLog = false,
-    bool encryptAndCompress = true,
-    bool enablePlay = true,
-    bool enableAutoStart = false,
-  }) async {
-    //
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  /// Call only after the user has accepted the privacy policy.
+  /// Android automatically sends the launch event during initialization.
+  Future<void> init({bool enableLog = false}) async {
+    throw UnimplementedError('init() has not been implemented.');
   }
 
-  Future<void> initIOS({
-    required String appId,
-    required String channel,
-  }) async {
+  Future<void> initIOS() async {
     throw UnimplementedError('initIOS() has not been implemented.');
   }
 

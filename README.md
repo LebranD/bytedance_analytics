@@ -15,4 +15,11 @@
 启动参数和巨量直达链接，宿主应在用户同意隐私政策后调用 `initIOS` 和 `start`；
 `start` 才初始化 SDK 并发送启动事件。同一进程内重复调用不会重复发送启动事件。
 当前锁定的 BDASignalSDK 1.0.6 默认开启 IDFA 采集，插件显式关闭该开关。
-Android 旧版 SDK 使用应用管理中心提供的非空 App ID 和渠道名，并在同意后调用。
+### Android 初始化
+
+Android 使用 AppConvert 2.0.6，不需要 App ID。用户同意隐私政策后，在前台
+Activity 可用时调用 `init()`；SDK 自动发送一次启动事件。`start()` 在 Android
+不再发送启动事件。初始化和发送结果通过 Android logcat 的 `BytedanceConvert`
+标签记录；调用返回只表示初始化方法已调用，不代表网络发送或平台检测成功。
+2.x 不再使用旧版 RangersAppLog；`enableImei`、`enableAutoTrack`、
+`encryptAndCompress`、`enablePlay` 和 `enableAutoStart` 已从插件接口移除。

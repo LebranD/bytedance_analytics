@@ -2,114 +2,105 @@ package io.github.lebrand.bytedance_analytics;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bytedance.ads.convert.BDConvert;
-import com.bytedance.applog.AppLog;
-import com.bytedance.applog.InitConfig;
-import com.bytedance.applog.util.UriConstants;
+import com.bytedance.ads.convert.callback.BDConvertLifecycleCallback;
+import com.bytedance.ads.convert.config.BDConvertConfig;
 
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import io.flutter.app.FlutterApplication;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
 
-/** BytedanceAnalyticsPlugin */
-public class BytedanceAnalyticsPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
-
+public class BytedanceAnalyticsPlugin implements FlutterPlugin, MethodChannel.MethodCallHandler, ActivityAware {
+  private static final String TAG = "BytedanceConvert";
+  private static final AtomicBoolean initializationStarted = new AtomicBoolean(false);
+  private final Handler mainHandler = new Handler(Looper.getMainLooper());
   private MethodChannel channel;
   private Context applicationContext;
   private Activity mainActivity;
+
   @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    this.applicationContext = flutterPluginBinding.getApplicationContext();
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "bytedance_analytics");
+  public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+    applicationContext = binding.getApplicationContext();
+    channel = new MethodChannel(binding.getBinaryMessenger(), "bytedance_analytics");
     channel.setMethodCallHandler(this);
   }
 
-  @Override
-  public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
-    this.mainActivity = binding.getActivity();
-  }
+  @Override public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) { mainActivity = binding.getActivity(); }
+  @Override public void onDetachedFromActivityForConfigChanges() { mainActivity = null; }
+  @Override public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) { mainActivity = binding.getActivity(); }
+  @Override public void onDetachedFromActivity() { mainActivity = null; }
 
-  @Override
-  public void onDetachedFromActivityForConfigChanges() {
-    this.mainActivity = null;
-  }
-
-  @Override
-  public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
-    this.mainActivity = binding.getActivity();
-  }
-
-  @Override
-  public void onDetachedFromActivity() {
-    this.mainActivity = null;
-  }
-
-  private void init(@NonNull MethodCall call, @NonNull Result result) {
-    Map<String, Object> arguments = call.arguments();
-    final String appId = (String) arguments.get("appId");
-    final String channel = (String) arguments.get("channel");
-    final boolean enableImei = (boolean) arguments.get("enableImei");
-    final boolean enableAutoTrack = (boolean) arguments.get("enableAutoTrack");
-    final boolean enableLog = (boolean) arguments.get("enableLog");
-    final boolean encryptAndCompress = (boolean) arguments.get("encryptAndCompress");
-    final boolean enablePlay = (boolean) arguments.get("enablePlay");
-    final boolean enableAutoStart = (boolean) arguments.get("enableAutoStart");
-
-    /* 初始化SDK开始 */
-    // 第一个参数APPID: 参考2.1节获取
-    // 第二个参数CHANNEL: 填写渠道信息，请注意不能为空
-    final InitConfig config = new InitConfig(appId, channel);
-    // 设置数据上送地址
-    config.setUriConfig(UriConstants.DEFAULT);
-    config.setImeiEnable(enableImei);//建议关停获取IMEI（出于合规考虑）
-    config.setAutoTrackEnabled(enableAutoTrack); // 全埋点开关，true开启，false关闭
-    config.setLogEnable(enableLog); // true:开启日志，参考4.3节设置logger，false:关闭日志
-    AppLog.setEncryptAndCompress(encryptAndCompress); // 加密开关，true开启，false关闭
-    config.setEnablePlay(enablePlay); // 配置心跳事件（时长统计）
-    config.setAutoStart(enableAutoStart);
-    //传入需要init的AppLog实例，若没有多个AppLog实例，则传入AppLog.getInstance()即可
-    BDConvert.getInstance().init(this.applicationContext, AppLog.getInstance());
-    AppLog.init(this.applicationContext, config, this.mainActivity);
-    result.success(null);
-
-  }
-
-  private void start() {
-    AppLog.start();
-  }
-
-  @Override
-  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
-    } else if (call.method.equals("init")) {
-      init(call, result);
-    } else if (call.method.equals("start")) {
-      start();
+  private void init(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
+    final Activity activity = mainActivity;
+    final Context context = applicationContext;
+    if (activity == null || context == null) {
+      result.error("NO_ACTIVITY", "A foreground Activity is required for attribution initialization", null);
+      return;
+    }
+    if (!initializationStarted.compareAndSet(false, true)) {
       result.success(null);
-    } else if (call.method.equals("getAndroidId")) {
-      final String androidId = Settings.Secure.getString(applicationContext.getContentResolver(), Settings.Secure.ANDROID_ID);
-      result.success(androidId);
-    } else {
-      result.notImplemented();
+      return;
+    }
+    final BDConvertConfig config = new BDConvertConfig();
+    config.setEnableLog(Boolean.TRUE.equals(call.argument("enableLog")));
+    // Method A: initialize after consent and let the SDK send launch automatically.
+    config.setAutoSendLaunchEvent(true);
+    config.setLifecycleCallback(new BDConvertLifecycleCallback() {
+      @Override public void onInitSuccess() { Log.i(TAG, "SDK initialization succeeded"); }
+      @Override public void onInitFailure(int reason, @Nullable Throwable error) {
+        initializationStarted.set(false);
+        Log.e(TAG, "SDK initialization failed, reason=" + reason, error);
+      }
+      @Override public void onEventSendSuccess(@NonNull String eventName, @NonNull String requestId) {
+        Log.i(TAG, "SDK event sent: " + eventName);
+      }
+      @Override public void onEventSendFailure(@NonNull String eventName, int reason, @NonNull String requestId, @Nullable Throwable error) {
+        Log.e(TAG, "SDK event failed: " + eventName + ", reason=" + reason, error);
+      }
+      @Override public void onOtherError(int reason, @Nullable Throwable error) {
+        Log.e(TAG, "SDK error, reason=" + reason, error);
+      }
+    });
+    new Thread(() -> {
+      try {
+        BDConvert.INSTANCE.init(context, config, activity);
+        mainHandler.post(() -> result.success(null));
+      } catch (Exception error) {
+        initializationStarted.set(false);
+        Log.e(TAG, "SDK initialization threw", error);
+        mainHandler.post(() -> result.error("INIT_FAILED", error.toString(), null));
+      }
+    }, "bytedance-convert-init").start();
+  }
+
+  @Override
+  public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
+    switch (call.method) {
+      case "getPlatformVersion": result.success("Android " + android.os.Build.VERSION.RELEASE); break;
+      case "init": init(call, result); break;
+      // Android method A sends the launch event in init; avoid double counting.
+      case "start": result.success(null); break;
+      case "getAndroidId":
+        result.success(Settings.Secure.getString(applicationContext.getContentResolver(), Settings.Secure.ANDROID_ID));
+        break;
+      default: result.notImplemented();
     }
   }
 
-  @Override
-  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+  @Override public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     channel.setMethodCallHandler(null);
-    this.applicationContext = null;
+    applicationContext = null;
   }
 }
