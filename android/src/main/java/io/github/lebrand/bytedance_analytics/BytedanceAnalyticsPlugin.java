@@ -42,12 +42,12 @@ public class BytedanceAnalyticsPlugin implements FlutterPlugin, MethodCallHandle
 
   @Override
   public void onDetachedFromActivityForConfigChanges() {
-
+    this.mainActivity = null;
   }
 
   @Override
   public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
-
+    this.mainActivity = binding.getActivity();
   }
 
   @Override
