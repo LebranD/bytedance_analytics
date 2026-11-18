@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "bytedance_analytics",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}

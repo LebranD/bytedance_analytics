@@ -4,6 +4,7 @@ import 'package:bytedance_analytics/darwin_bytedance_analytics_method_channel.da
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'android_bytedance_analytics_method_channel.dart';
+import 'ohos_bytedance_analytics_method_channel.dart';
 
 abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
   /// Constructs a BytedanceAnalyticsPlatform.
@@ -11,8 +12,11 @@ abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static BytedanceAnalyticsPlatform _instance =
-      Platform.isAndroid ? AndroidMethodChannelBytedanceAnalytics() : DarwinMethodChannelBytedanceAnalytics();
+  static BytedanceAnalyticsPlatform _instance = Platform.isAndroid
+      ? AndroidMethodChannelBytedanceAnalytics()
+      : Platform.operatingSystem == 'ohos'
+          ? OhosMethodChannelBytedanceAnalytics()
+          : DarwinMethodChannelBytedanceAnalytics();
 
   /// The default instance of [BytedanceAnalyticsPlatform] to use.
   ///
@@ -35,6 +39,16 @@ abstract class BytedanceAnalyticsPlatform extends PlatformInterface {
   /// Android automatically sends the launch event during initialization.
   Future<void> init({bool enableLog = false}) async {
     throw UnimplementedError('init() has not been implemented.');
+  }
+
+  /// Call only after the user has accepted the privacy policy.
+  /// Tracking permission is requested by the Harmony implementation.
+  Future<void> initOhos({bool enableLog = false}) async {
+    throw UnimplementedError('initOhos() has not been implemented.');
+  }
+
+  Future<String?> getOaid() async {
+    throw UnimplementedError('getOaid() has not been implemented.');
   }
 
   Future<void> initIOS() async {

@@ -1,6 +1,6 @@
 name: bytedance_analytics
 description: "字节归因实现方案"
-version: 3.0.0
+version: 3.1.0
 homepage: https://github.com/LebranD/bytedance_analytics
 repository: https://github.com/LebranD/bytedance_analytics
 publish_to: https://pub.dev
@@ -40,6 +40,8 @@ flutter:
         package: io.github.lebrand.bytedance_analytics
         pluginClass: BytedanceAnalyticsPlugin
       ios:
+        pluginClass: BytedanceAnalyticsPlugin
+      ohos:
         pluginClass: BytedanceAnalyticsPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
